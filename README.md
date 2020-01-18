@@ -5,6 +5,7 @@
 Go to https://aws.amazon.com/free/
 
 Fill out the following form with your information
+
 <img width="448" alt="Screen Shot 2020-01-12 at 9 28 04 PM" src="https://user-images.githubusercontent.com/14353143/72233182-ec9db300-3582-11ea-9260-3355118772f6.png">
 
 
@@ -18,7 +19,8 @@ Create Django App Security group. Note that we will allow SSH to connect and ins
 Create the Database Security Group. Note that we don't allow anyone to access the DB. We will fix this later
 <img width="995" alt="Screen Shot 2020-01-17 at 5 11 33 PM" src="https://user-images.githubusercontent.com/14353143/72655197-a369ac80-3950-11ea-8915-424f67f4d043.png">
 
-
+Allow your App Security group to access your DB
+<img width="1183" alt="Screen Shot 2020-01-17 at 6 01 22 PM" src="https://user-images.githubusercontent.com/14353143/72670706-ff3e3f00-39fd-11ea-8b9c-88635a9b5eb0.png">
 ## 3. Create a PostGres Database 
 
 - Navigate to https://us-west-2.console.aws.amazon.com/rds/home?region=us-west-2
@@ -53,5 +55,21 @@ sudo yum update -y
 sudo yum install -y python3 git
 git clone https://github.com/Gknoblau/hacked-2020-demo.git
 cd hacked-2020-demo/
+pip3 install --user -r requirements.txt
+cd demo
+export DB_PASSWord=YOUR_PASSWORD
+export DP_HOST=YOUR_DB_HOST
+python3 manange.py migrate
+python3 manange.py runserver 0.0.0.0:8080
+
 ```
+
+<img width="470" alt="Screen Shot 2020-01-17 at 5 57 20 PM" src="https://user-images.githubusercontent.com/14353143/72670705-ff3e3f00-39fd-11ea-953c-7e9b967d2fcb.png">
+
+## 5. Navigate to Your IP!
+
+<img width="470" alt="Screen Shot 2020-01-17 at 6 06 45 PM" src="https://user-images.githubusercontent.com/14353143/72670707-ff3e3f00-39fd-11ea-80ed-fc3bc81216e0.png">
+
+
+
 
