@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 
 
 from buy_sell.models import Ad, Profile
-from buy_sell.forms import AdForm
+from buy_sell.forms import AdForm, SignUpForm
 
 
 # Create your views here.
@@ -35,3 +35,17 @@ def view_listing(request, ad_id):
     ad = get_object_or_404(Ad, pk=ad_id)
 
     return render(request, "ad_details.html", context=dict(ad=ad))
+
+def signup(request):
+    if request.method == "POST":
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            u = form.save()
+            u.refresh_from_db()
+            u.user_profile.preferred_language = form.cleaned_data.get('preferred_language')
+            u.save()
+            return redirect('login')
+    else:
+        form = SignUpForm()
+
+    return render(request, "signup.html", context=dict(form=form))
