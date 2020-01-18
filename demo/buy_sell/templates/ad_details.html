@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% load humanize %}
+
+{% block content %}
+<div class="card mb-3">
+    <div class="row no-gutters">
+        <div class="col-md-12">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-8">
+                        <h5 class="card-text">
+                            {{ ad.title }}</a>
+                        </h5>
+                    </div>
+                    <div class="col-4 text-right">
+                        <p class="card-text"><small class="text-muted">By {{ad.author.user.username}}</small></p>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <span class="card-text">{{ad.body}}</span>
+            </div>
+            <div class="card-footer">
+                <div class="col-12 text-right">
+                    <small class="text-muted">Posted {{ad.posted|naturaltime}} ago</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

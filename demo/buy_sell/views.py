@@ -1,5 +1,51 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth.decorators import login_required
+
+
+from buy_sell.models import Ad, Profile
+from buy_sell.forms import AdForm, SignUpForm
+
 
 # Create your views here.
 def index(request):
-    return render(request, "index.html")
+
+    ads = Ad.objects.order_by("-posted")
+
+    return render(request, "index.html", context=dict(recent_ads=ads))
+
+@login_required
+def create_listing(request):
+    
+    if request.method == "POST":
+        form = AdForm(request.POST)
+        if form.is_valid():
+            new_ad = Ad(
+                title=form.cleaned_data.get("title"),
+                body=form.cleaned_data.get("body"),
+                author=request.user.user_profile
+            )
+
+            new_ad.save()
+            return redirect("buy_sell_index")
+
+    return render(request, "create_ad.html", context=dict(form=AdForm))
+
+def view_listing(request, ad_id):
+    
+    ad = get_object_or_404(Ad, pk=ad_id)
+
+    return render(request, "ad_details.html", context=dict(ad=ad))
+
+def signup(request):
+    if request.method == "POST":
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            u = form.save()
+            u.refresh_from_db()
+            u.user_profile.preferred_language = form.cleaned_data.get('preferred_language')
+            u.save()
+            return redirect('login')
+    else:
+        form = SignUpForm()
+
+    return render(request, "signup.html", context=dict(form=form))
