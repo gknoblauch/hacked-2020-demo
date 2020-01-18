@@ -11,7 +11,7 @@ LANGUAGES = [
 ]
 
 class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, related_name='user_profile', on_delete=models.CASCADE)
     preferred_language = models.CharField(max_length=8, choices=LANGUAGES)
 
     def __str__(self):
